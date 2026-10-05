@@ -1,0 +1,11 @@
+kokoro>=0.9.4
+soundfile
+librosa
+pyloudnorm
+imageio-ffmpeg
+transformers
+accelerate
+num2words
+# 검사 2(음소 인식): kokoro가 함께 설치하는 misaki[en]의 espeak-ng(espeakng_loader)·phonemizer-fork를 쓴다
+espeakng_loader
+phonemizer-fork

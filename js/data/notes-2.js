@@ -1,0 +1,338 @@
+// 문법 노트 (2) — 시각·명령·조동사·과거·미래·비교·완료·접속사·관계사·의문사·발음
+const t = (s) => `<span class="en">${s}</span>`;
+const m = (s, k) => `<span class="m m-${k}">${s}</span>`;
+
+export const NOTES2 = [
+  {
+    id: 'time', title: '시각 말하기', sub: 'What time is it?',
+    sections: [
+      { p: `시각을 묻고 답할 때 주어는 ${t('it')}: ${t('What time is it?')} → ${t("It's three o'clock.")}` },
+      { table: { head: ['시각', '숫자대로 (가장 흔함)', 'past / to 방식'], rows: [
+        ['3:00', t("three o'clock"), t("three o'clock")],
+        ['3:05', t('three oh five'), t('five past three')],
+        ['3:15', t('three fifteen'), t('a quarter past three')],
+        ['3:30', t('three thirty'), t('half past three')],
+        ['3:45', t('three forty-five'), t('a quarter to four')],
+        ['3:50', t('three fifty'), t('ten to four')],
+      ] } },
+      { p: `오전·오후는 숫자 뒤에: ${t('9 a.m.')} 오전 9시 · ${t('6 p.m.')} 오후 6시 · 정오 ${t('noon')} · 자정 ${t('midnight')}` },
+      { p: `몇 시에? ${t('What time does the movie start?')} → ${t('At seven thirty.')} (시각 앞에는 at)` },
+      { tip: "past는 '지나서', to는 '~까지 남은'. a quarter = 15분(4분의 1), half = 30분. 요즘은 숫자 그대로 읽는 방식이 가장 많이 쓰여요." },
+      { warn: `${t("o'clock")}은 정각에만: 3:15를 ×three o'clock fifteen이라고 하지 않아요.` },
+      { drill: 'time', label: '시각 드릴' },
+    ],
+  },
+  {
+    id: 'imperative', title: "명령문 · Let's", sub: '동사원형으로 시작',
+    sections: [
+      { table: { head: ['', '형태', '예'], rows: [
+        ['~해(요)', '동사원형', t('Sit down, please.')],
+        ['~하지 마', `${m("Don't", 'neg')} + 원형`, t("Don't worry.")],
+        ['~하자', `${m("Let's", 'aux')} + 원형`, t("Let's go!")],
+        ['~하지 말자', `${m("Let's not", 'neg')} + 원형`, t("Let's not be late.")],
+        ['be + 형용사', `${m('Be', 'aux')} + 형용사`, t('Be careful!')],
+      ] } },
+      { p: `길 안내, 요리법, 설명서는 명령문으로 쓰는 게 자연스러워요: ${t('Turn left at the corner.')} 무례한 말투가 아니에요.` },
+      { ex: [
+        ['Please close the door.', '문 좀 닫아 주세요.'],
+        ["Don't touch that!", '그거 만지지 마!'],
+        ["Let's have lunch together.", '같이 점심 먹어요.'],
+      ] },
+      { tip: "공손함의 단계: Open the window. < Open the window, please. < Can you open the window? < Could you open the window?" },
+    ],
+  },
+  {
+    id: 'can', title: 'can · could', sub: '할 수 있다 · 해 주시겠어요?',
+    sections: [
+      { p: `${t('can')} + 동사원형 = ~할 수 있다. 주어가 누구든 모양이 같고, 뒤에는 늘 원형이에요.` },
+      { table: { head: ['', '예', '뜻'], rows: [
+        ['능력', t('I can swim.'), '수영할 수 있어요'],
+        ['부정', t("I can't drive."), '운전 못 해요'],
+        ['질문', t('Can you speak English?'), '영어 할 줄 알아요?'],
+        ['허락', t('Can I sit here?'), '여기 앉아도 돼요?'],
+        ['부탁', t('Can you help me?'), '도와줄래요?'],
+        ['공손한 부탁', t('Could you help me?'), '도와주시겠어요?'],
+        ['공손한 허락', t('May I come in?'), '들어가도 될까요?'],
+      ] } },
+      { tip: "can은 약하게 [큰], can't는 강하게 [캔트]. 'I can go'와 'I can't go'는 t 소리보다 강세 차이로 들어요!" },
+      { warn: `can 뒤에 to·-s를 붙이지 마세요: ×She cans swim · ×I can to swim → ${t('She can swim.')}` },
+      { drill: 'tense', label: '동사 시제 드릴 (가능 can 선택)' },
+    ],
+  },
+  {
+    id: 'past', title: '과거형', sub: '-ed · did',
+    sections: [
+      { p: '지난 일은 과거형으로. 대부분 동사 끝에 <b>-ed</b>를 붙이고, 주어와 상관없이 모양이 같아요.' },
+      { table: { head: ['규칙', '예'], rows: [
+        ['대부분 + ed', `${t('work → worked')} · ${t('play → played')}`],
+        ['e로 끝나면 + d', `${t('like → liked')} · ${t('arrive → arrived')}`],
+        ['자음 + y → ied', `${t('study → studied')} · ${t('cry → cried')}`],
+        ['짧은 모음 + 자음 → 겹치기', `${t('stop → stopped')} · ${t('plan → planned')}`],
+      ] } },
+      { h: '질문과 부정은 did' },
+      { table: { head: ['', '예'], rows: [
+        ['부정', `I ${m("didn't", 'neg')} go. (×didn't went)`],
+        ['질문', `${m('Did', 'aux')} you see it? (×Did you saw)`],
+        ['대답', t("Yes, I did. / No, I didn't.")],
+      ] } },
+      { h: '-ed 발음 세 가지' },
+      { p: `[t] ${t('walked, watched, stopped')} · [d] ${t('played, cleaned, lived')} · [id] ${t('wanted, started, visited')} — t·d로 끝나는 동사만 [이드]로 한 음절 늘어나요.` },
+      { tip: "한국어 '-았/었-'처럼 영어 과거도 주어와 상관없어요. I·you·she 모두 played!" },
+      { drill: 'tense', label: '동사 시제 드릴 (과거)' },
+    ],
+  },
+  {
+    id: 'irregular', title: '불규칙 동사', sub: 'go – went – gone',
+    sections: [
+      { p: '가장 자주 쓰는 동사들이 불규칙이에요. 원형 – 과거 – 과거분사를 한 세트로 외워요.' },
+      { table: { head: ['원형', '과거', '과거분사', '뜻'], rows: [
+        [t('go'), t('went'), t('gone'), '가다'],
+        [t('come'), t('came'), t('come'), '오다'],
+        [t('eat'), t('ate'), t('eaten'), '먹다'],
+        [t('see'), t('saw'), t('seen'), '보다'],
+        [t('do'), t('did'), t('done'), '하다'],
+        [t('have'), t('had'), t('had'), '가지다'],
+        [t('get'), t('got'), t('gotten'), '얻다'],
+        [t('make'), t('made'), t('made'), '만들다'],
+        [t('take'), t('took'), t('taken'), '가져가다'],
+        [t('buy'), t('bought'), t('bought'), '사다'],
+        [t('think'), t('thought'), t('thought'), '생각하다'],
+        [t('meet'), t('met'), t('met'), '만나다'],
+        [t('write'), t('wrote'), t('written'), '쓰다'],
+        [t('put'), t('put'), t('put'), '놓다'],
+      ] } },
+      { p: '패턴으로 묶으면 쉬워요: A-A-A(put·cut·hit), A-B-B(buy·bought·bought), A-B-A(come·came·come), A-B-C(go·went·gone)' },
+      { tip: '과거분사는 현재완료(have + p.p.)와 수동태에 써요. 처음엔 과거형부터, 익숙해지면 과거분사까지!' },
+      { warn: `규칙처럼 -ed를 붙이는 실수가 가장 흔해요: ×goed ×eated ×buyed` },
+      { drill: 'irregular', label: '불규칙 동사 드릴' },
+    ],
+  },
+  {
+    id: 'was_were', title: 'was · were', sub: 'be동사의 과거',
+    sections: [
+      { table: { head: ['주어', '현재', '과거'], rows: [
+        [t('I'), t('am'), t('was')],
+        [t('he · she · it'), t('is'), t('was')],
+        [t('you · we · they'), t('are'), t('were')],
+      ] } },
+      { p: `부정: ${t("wasn't")} · ${t("weren't")} / 질문: ${t('Were you at home?')} → ${t('Yes, I was.')}` },
+      { ex: [
+        ['I was tired yesterday.', '어제 피곤했어요.'],
+        ['The movie was great.', '영화 정말 좋았어요.'],
+        ['Were they at the party?', '그들 파티에 있었어요?'],
+        ['There were a lot of people.', '사람이 많았어요.', 'There is → There was / were'],
+      ] },
+      { p: `어땠어요? = ${t('How was')} ~?: ${t('How was your weekend?')} → ${t('It was fun!')}` },
+      { warn: `be동사 과거와 did를 섞지 마세요: ×Did you tired? → ${t('Were you tired?')}` },
+      { drill: 'be', label: 'be동사 드릴' },
+    ],
+  },
+  {
+    id: 'future', title: '미래: will · be going to', sub: '~할게 · ~할 거야',
+    sections: [
+      { table: { head: ['', '느낌', '예'], rows: [
+        [t('will'), '지금 막 정한 일 · 약속 · 예측', `${t("I'll call you later.")} 나중에 전화할게`],
+        [t('be going to'), '전부터 정한 계획 · 확실한 예측', `${t("I'm going to visit Japan.")} 일본에 갈 거야`],
+        ['현재진행', '정해진 가까운 약속', `${t("I'm meeting Tom tonight.")} 오늘 밤 톰 만나`],
+      ] } },
+      { p: `will 형태: ${m('will', 'aux')} + 원형 (주어 상관없음) · 부정 ${m("won't", 'neg')} · 질문 ${t('Will you come?')}<br>be going to 형태: ${m('am/is/are going to', 'aux')} + 원형` },
+      { ex: [
+        ["It's cold. I'll close the window.", '춥네. 창문 닫을게.', '지금 막 결정'],
+        ["We're going to move next month.", '우리 다음 달에 이사해.', '미리 정한 계획'],
+        ['It will probably rain tomorrow.', '내일 아마 비가 올 거예요.'],
+      ] },
+      { tip: "한국어 '-ㄹ게'(약속·즉석 결정)는 will, '-ㄹ 거야'(계획)는 be going to와 잘 맞아요." },
+      { warn: `will 뒤에는 원형만: ×She will goes · ×I will to go` },
+      { drill: 'tense', label: '동사 시제 드릴 (미래 선택)' },
+    ],
+  },
+  {
+    id: 'want', title: "want to · would like", sub: '~하고 싶다',
+    sections: [
+      { table: { head: ['', '예', '뜻'], rows: [
+        ['want + 명사', t('I want coffee.'), '커피를 원해요'],
+        ['want to + 동사원형', t('I want to go home.'), '집에 가고 싶어요'],
+        ["would like + 명사 (공손)", t("I'd like a coffee."), '커피 주세요'],
+        ["would like to + 동사원형", t("I'd like to check in."), '체크인하고 싶어요'],
+        ['want + 사람 + to', t('I want you to come.'), '네가 왔으면 좋겠어'],
+      ] } },
+      { p: `3인칭은 ${t('wants')}: ${t('She wants to be a singer.')} / 부정 ${t("I don't want to go.")} / 질문 ${t('Do you want to come?')}` },
+      { tip: "가게·식당에서는 I want보다 I'd like가 훨씬 공손해요. 친구 사이에서는 I want to / wanna도 자연스러워요." },
+      { warn: `to를 빠뜨리지 마세요: ×I want go → ${t('I want to go.')}` },
+      { drill: 'tense', label: '동사 시제 드릴 (희망 want to)' },
+    ],
+  },
+  {
+    id: 'modals', title: 'have to · must · should', sub: '의무와 조언',
+    sections: [
+      { table: { head: ['', '세기', '예'], rows: [
+        [t('must'), '강한 의무·규칙', t('You must wear a seatbelt.')],
+        [t('have to'), '해야 하는 일(상황상)', t('I have to work tomorrow.')],
+        [t('should'), '조언·권유', t('You should see a doctor.')],
+      ] } },
+      { h: '부정은 뜻이 달라져요' },
+      { table: { head: ['', '뜻', '예'], rows: [
+        [t("mustn't"), '하면 안 된다 (금지)', t("You mustn't smoke here.")],
+        [t("don't have to"), '할 필요 없다', t("You don't have to pay.")],
+        [t("shouldn't"), '안 하는 게 좋다', t("You shouldn't eat too much.")],
+      ] } },
+      { p: `have to는 일반동사처럼 활용해요: ${t('She has to go.')} · ${t('Do I have to wait?')} · 과거 ${t('I had to work.')}` },
+      { tip: "한국어 '-해야 해요'는 have to, '-하는 게 좋아요'는 should. 친구에게 조언할 때 must를 쓰면 너무 강하게 들릴 수 있어요." },
+      { drill: 'tense', label: '동사 시제 드릴 (의무·충고 선택)' },
+    ],
+  },
+  {
+    id: 'comparative', title: '비교급', sub: '-er than · more ~ than',
+    sections: [
+      { table: { head: ['형용사', '규칙', '예'], rows: [
+        ['1음절', '+ er', `${t('tall → taller')} · ${t('fast → faster')}`],
+        ['e로 끝남', '+ r', `${t('nice → nicer')} · ${t('large → larger')}`],
+        ['짧은 모음 + 자음', '자음 겹치기 + er', `${t('big → bigger')} · ${t('hot → hotter')}`],
+        ['자음 + y', 'y → ier', `${t('easy → easier')} · ${t('happy → happier')}`],
+        ['2음절 이상', 'more + 원형', `${t('beautiful → more beautiful')}`],
+        ['불규칙', '', `${t('good → better')} · ${t('bad → worse')} · ${t('far → farther')}`],
+      ] } },
+      { p: `'~보다' = ${t('than')}: ${t("I'm taller than my brother.")} 저는 형보다 키가 커요.` },
+      { ex: [
+        ['The subway is faster than the bus.', '지하철이 버스보다 빨라요.'],
+        ['This one is more expensive.', '이게 더 비싸요.'],
+        ['Your English is better than mine.', '당신 영어가 제 것보다 나아요.'],
+      ] },
+      { tip: "한국어는 '형<b>보다</b> 크다'처럼 비교 대상이 앞에 오지만, 영어는 'taller <b>than</b> my brother'처럼 뒤에 와요." },
+      { warn: `두 방식을 섞지 마세요: ×more bigger · ×more easier` },
+      { drill: 'compare', label: '비교급·최상급 드릴' },
+    ],
+  },
+  {
+    id: 'superlative', title: '최상급', sub: 'the -est · the most',
+    sections: [
+      { table: { head: ['형용사', '비교급', '최상급'], rows: [
+        [t('tall'), t('taller'), t('the tallest')],
+        [t('big'), t('bigger'), t('the biggest')],
+        [t('easy'), t('easier'), t('the easiest')],
+        [t('popular'), t('more popular'), t('the most popular')],
+        [t('good'), t('better'), t('the best')],
+        [t('bad'), t('worse'), t('the worst')],
+      ] } },
+      { p: `범위는 뒤에: ${t('in the world')} · ${t('in my family')} · ${t('of all')}<br>경험과 함께: ${t("It's the best movie I've ever seen.")} 내가 본 영화 중 최고야.` },
+      { ex: [
+        ['Seoul is the biggest city in Korea.', '서울은 한국에서 가장 큰 도시예요.'],
+        ['This is the most popular song.', '이게 가장 인기 있는 노래예요.'],
+        ['You are the best!', '네가 최고야!'],
+      ] },
+      { warn: `최상급 앞에는 보통 the를 붙여요. 그리고 favorite에는 most를 붙이지 않아요: ×most favorite` },
+      { drill: 'compare', label: '비교급·최상급 드릴' },
+    ],
+  },
+  {
+    id: 'perfect', title: '현재완료', sub: 'have + 과거분사',
+    sections: [
+      { p: '현재완료는 <b>과거의 일이 지금과 이어질 때</b> 써요. 형태는 have/has + 과거분사(p.p.).' },
+      { table: { head: ['쓰임', '예', '뜻'], rows: [
+        ['경험', t("I've been to Japan."), '일본에 가 본 적 있어요'],
+        ['완료', t("I've already eaten."), '벌써 먹었어요'],
+        ['계속', t("I've lived here for five years."), '여기 산 지 5년 됐어요'],
+        ['결과', t("I've lost my key."), '열쇠를 잃어버렸어요(지금 없어요)'],
+      ] } },
+      { p: `질문 ${t('Have you ever tried kimchi?')} → ${t('Yes, I have.')} / ${t("No, I haven't.")} / ${t("I've never tried it.")}` },
+      { table: { head: ['함께 쓰는 말', '예'], rows: [
+        [t('ever / never'), t('Have you ever…? / I have never…')],
+        [t('already / yet'), t("I've already done it. / I haven't done it yet.")],
+        [t('for / since'), `${t('for two years')} 2년 동안 · ${t('since 2020')} 2020년부터`],
+        [t('just'), t("I've just arrived.")],
+      ] } },
+      { tip: "'가 본 적 있다'는 gone이 아니라 been: I've been to Paris. (I've gone to Paris는 '파리에 가 버려서 지금 여기 없다')" },
+      { warn: `yesterday, last week처럼 끝난 과거 시점과는 쓰지 않아요: ×I have seen it yesterday → ${t('I saw it yesterday.')}` },
+      { drill: 'tense', label: '동사 시제 드릴 (현재완료 선택)' },
+    ],
+  },
+  {
+    id: 'conjunctions', title: '접속사', sub: 'and · but · so · because · or',
+    sections: [
+      { table: { head: ['', '뜻', '예'], rows: [
+        [t('and'), '그리고', t('I like tea and coffee.')],
+        [t('but'), '하지만', t("It's small but cozy.")],
+        [t('or'), '또는', t('Tea or coffee?')],
+        [t('so'), '그래서 (결과)', t('I was tired, so I slept.')],
+        [t('because'), '왜냐하면 (이유)', t('I slept because I was tired.')],
+        [t('when'), '~할 때', t('Call me when you arrive.')],
+        [t('if'), '만약 ~하면', t('If you are busy, call me later.')],
+      ] } },
+      { tip: "한국어 '-아서/-어서'는 영어로 두 가지예요. 원인 → 결과 순서면 so, 결과 → 원인 순서면 because." },
+      { warn: `because 뒤에는 문장, because of 뒤에는 명사: ${t('because it rained')} / ${t('because of the rain')}` },
+    ],
+  },
+  {
+    id: 'if_when', title: 'if · when 절', sub: '조건과 때',
+    sections: [
+      { p: `${t('If')} ~ = 만약 ~하면 · ${t('When')} ~ = ~할 때 (반드시 일어날 일)` },
+      { ex: [
+        ['If it rains, I will stay home.', '비가 오면 집에 있을 거예요.'],
+        ['When I get home, I will call you.', '집에 도착하면 전화할게요.'],
+        ['If you are hungry, eat something.', '배고프면 뭐 좀 먹어.'],
+      ] },
+      { p: `<b>if · when 절 안에서는 미래라도 현재형</b>을 써요: ${t('If it rains')} (×If it will rain) · ${t('when I get home')} (×when I will get home)` },
+      { p: `쉼표 규칙: if 절이 앞에 오면 쉼표, 뒤에 오면 쉼표 없이: ${t('I will stay home if it rains.')}` },
+      { tip: "한국어 '-면'처럼 쓰면 돼요. 상상(가정)은 과거형: If I were rich, I would travel. (부자라면 여행할 텐데)" },
+    ],
+  },
+  {
+    id: 'relative', title: '관계사 who · that · which', sub: '꾸미는 말이 뒤로',
+    sections: [
+      { p: '한국어는 명사를 꾸미는 말이 <b>앞</b>에 오지만, 영어는 긴 꾸밈말이 명사 <b>뒤</b>에 와요.' },
+      { table: { head: ['한국어', '영어'], rows: [
+        ['<b>서울에 사는</b> 친구', `a friend ${m('who lives in Seoul', 'stem')}`],
+        ['<b>내가 어제 산</b> 책', `the book ${m('that I bought yesterday', 'stem')}`],
+        ['<b>창문이 큰</b> 방', `a room ${m('that has big windows', 'stem')}`],
+      ] } },
+      { table: { head: ['꾸밈받는 말', '관계사'], rows: [
+        ['사람', `${t('who')} (또는 that)`],
+        ['사물·동물', `${t('that')} / ${t('which')}`],
+      ] } },
+      { ex: [
+        ['I have a friend who speaks French.', '저는 프랑스어를 하는 친구가 있어요.'],
+        ['This is the phone that I bought.', '이게 제가 산 휴대폰이에요.'],
+        ['The man who called you is my boss.', '당신에게 전화한 사람은 제 상사예요.'],
+      ] },
+      { tip: "말할 때는 '명사 먼저 → 설명은 뒤에'. a friend… (어떤 친구냐면) who lives in Seoul. 이렇게 덧붙인다고 생각하면 쉬워요." },
+      { warn: `목적어 자리의 that은 생략할 수 있어요: ${t('the book (that) I bought')}` },
+    ],
+  },
+  {
+    id: 'questions', title: '의문사 질문', sub: 'what · where · when · who · why · how',
+    sections: [
+      { table: { head: ['의문사', '뜻', '예'], rows: [
+        [t('what'), '무엇', t("What's your name?")],
+        [t('where'), '어디', t('Where do you live?')],
+        [t('when'), '언제', t('When is your birthday?')],
+        [t('who'), '누구', t('Who is that?')],
+        [t('why'), '왜', t('Why are you late?')],
+        [t('how'), '어떻게', t('How do you go to work?')],
+        [t('which'), '어느 것', t('Which one is yours?')],
+        [t('how much / many'), '얼마 / 몇 개', t('How much is it?')],
+        [t('how old / long / often'), '몇 살 / 얼마나 오래 / 얼마나 자주', t('How often do you exercise?')],
+      ] } },
+      { p: `순서: <b>의문사 + be동사/조동사 + 주어</b><br>${t('Where are you?')} · ${t('What do you want?')} · ${t('When did you arrive?')} · ${t('How can I help you?')}` },
+      { tip: "한국어는 '어디 살아요?'처럼 의문사가 중간에 와도 되지만, 영어 의문사는 거의 항상 맨 앞이에요." },
+      { warn: `do/does/did를 빠뜨리지 마세요: ×Where you live? → ${t('Where do you live?')}` },
+    ],
+  },
+  {
+    id: 'sounds', title: '영어 발음의 핵심', sub: '강세 · 리듬 · 연음',
+    sections: [
+      { h: '① 강세가 생명' },
+      { p: `영어 단어에는 강하게 읽는 음절이 하나 있어요. 강세가 틀리면 철자가 맞아도 못 알아들어요: ${t('baNAna')} · ${t('comPUter')} · ${t('HOtel')}이 아니라 ${t('hoTEL')}` },
+      { h: '② 약한 모음은 [어]' },
+      { p: `강세 없는 모음은 대부분 힘 빠진 '어'로 소리 나요: ${t('banana')} [버내너] · ${t('about')} [어바웃] · ${t('Korea')} [커리어]` },
+      { h: '③ 끝 자음에 "으"를 붙이지 않기' },
+      { p: `${t('strike')}는 1음절이에요. '스-트-라-이-크'처럼 모음을 넣으면 5음절이 돼요. 끝 자음은 살짝만 내요: ${t('bus')} [버스]보다 [벗ㅅ]에 가깝게.` },
+      { h: '④ 연음 — 이어서 말하기' },
+      { p: `자음으로 끝나는 단어 뒤에 모음이 오면 붙여 읽어요: ${t('an apple')} [어내플] · ${t('Check it out.')} [체끼라웃] · ${t('Thank you.')} [쌩큐]` },
+      { h: '⑤ 미국식 t' },
+      { p: `모음 사이의 t·d는 'ㄹ'처럼 약해져요: ${t('water')} [워러] · ${t('better')} [베러] · ${t('party')} [파리] — 이 앱의 한글 표기에도 반영돼 있어요.` },
+      { h: '⑥ 문장 리듬' },
+      { p: `중요한 말(명사·동사·형용사)은 강하게, 작은 말(a, the, to, of, and)은 약하고 빠르게: I <b>WANT</b> to <b>GO</b> to the <b>PARK</b>.` },
+      { tip: '한국어는 음절을 고르게 말하는 언어라서 영어도 또박또박 말하기 쉬워요. 강한 음절은 길고 크게, 약한 음절은 짧게 — 리듬을 과장해서 따라 해 보세요.' },
+    ],
+  },
+];

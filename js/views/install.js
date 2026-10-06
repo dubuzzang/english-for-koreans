@@ -7,6 +7,8 @@ import { offlineCard } from './offlinecard.js';
 // 안드로이드 앱(APK)을 download/hello.apk에 올렸으면 true (android/README.md)
 export const APK_READY = true;
 export const APK_URL = `${APP_ORIGIN}/download/hello.apk`;
+// 아이폰 설치 파일: 홈 화면에 앱 아이콘을 추가하는 구성 프로파일 (scripts/gen-ios-profile.mjs)
+export const IOS_PROFILE_URL = `${APP_ORIGIN}/download/hello.mobileconfig`;
 const onAppOrigin = () => location.origin === APP_ORIGIN;
 const steps = (...items) => h('ol', { class: 'steps' }, items.map((t) => h('li', null, t)));
 
@@ -56,14 +58,18 @@ function androidCard(primary) {
 }
 
 function iosCard(primary) {
+  const safari = () => h('b', null, 'Safari'); // 요소는 한 곳에만 붙으므로 쓸 때마다 새로
   return h('div', { class: `card ${primary ? '' : 'flat'}` },
     h('div', { class: 'bold', style: { fontSize: '17px' } }, '🍎 아이폰 · 아이패드'),
+    // download 속성 없이 연다: 사파리가 구성 프로파일로 받아 설정 앱에 넘긴다
+    h('a', { class: 'btn btn-primary btn-block btn-lg mt-12', href: IOS_PROFILE_URL }, icon('download', 20), 'Hello 설치 파일 받기 (아이폰)'),
     steps(
-      h('span', null, h('b', null, 'Safari'), '로 ', onAppOrigin() ? '이 페이지를' : h('a', { href: `${APP_ORIGIN}/#/install` }, APP_ORIGIN.replace('https://', '')), ' 열어요.'),
-      h('span', null, '아래쪽 ', h('b', null, '공유 버튼(⬆️)'), '을 눌러요.'),
-      h('span', null, h('b', null, '"홈 화면에 추가"'), ' → 추가를 눌러요.'),
-      '홈 화면의 Hello 아이콘으로 열면 와이파이에서 녹음·글꼴을 자동으로 저장해요. 그다음부터는 데이터 없이 학습할 수 있어요.',
+      h('span', null, safari(), '에서 위 버튼을 누르고 ', h('b', null, '"허용"'), '을 눌러요.'),
+      h('span', null, h('b', null, '설정'), ' 앱을 열면 맨 위에 ', h('b', null, '"프로파일이 다운로드됨"'), '이 보여요. 눌러서 ', h('b', null, '"설치"'), '를 누르고 기기 암호를 입력해요.'),
+      '"서명되지 않음"은 앱 스토어를 거치지 않은 파일이라 나오는 표시예요. "설치"를 한 번 더 누르면 홈 화면에 Hello 아이콘이 생겨요.',
+      'Hello 아이콘으로 열면 와이파이에서 녹음·글꼴을 자동으로 저장해요. 그다음부터는 데이터 없이 학습할 수 있어요.',
     ),
+    h('p', { class: 'small text-2 mt-8' }, '더 간단한 방법: ', safari(), '로 ', onAppOrigin() ? '이 페이지를' : h('a', { href: `${APP_ORIGIN}/#/install` }, APP_ORIGIN.replace('https://', '')), ' 열고 아래쪽 ', h('b', null, '공유 버튼(⬆️)'), ' → ', h('b', null, '"홈 화면에 추가"'), '를 눌러도 똑같이 설치돼요.'),
     h('p', { class: 'small muted mt-8' }, '앱 스토어용 앱은 애플 개발자 등록이 필요해서, 지금은 홈 화면 앱으로 제공해요. 기능은 같아요.'),
   );
 }

@@ -18,6 +18,12 @@ export function version() {
   return readFileSync(join(ROOT, 'js/version.js'), 'utf8').match(/VERSION = '([^']+)'/)[1];
 }
 
+/** 페이지 열기(navigate) 중 앱 화면으로 열 주소: /, /index.html, 확장자 없는 주소.
+ *  내려받을 파일(/download/hello.apk · hello.mobileconfig)까지 앱 화면으로 바꾸면 링크로 받을 수 없다. sw.js에 그대로 들어간다 */
+export function isAppPage(pathname) {
+  return !/\.[a-z0-9]+$/i.test(pathname) || /\/index\.html$/.test(pathname);
+}
+
 export function render() {
   return `/* Hello 서비스 워커 — scripts/gen-sw.mjs가 만든 파일이에요 (직접 고치지 마세요) */
 const VERSION = '${version()}';
@@ -30,6 +36,8 @@ const ASSETS = ${JSON.stringify(assetList(), null, 2)};
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
+
+${isAppPage.toString()}
 
 // 리디렉션을 거친 응답은 페이지 열기(navigate)에 그대로 쓸 수 없어서 깨끗한 응답으로 바꾼다
 async function clean(res) {
@@ -90,6 +98,7 @@ self.addEventListener('fetch', (e) => {
       return;
     }
     if (req.mode === 'navigate') {
+      if (!isAppPage(url.pathname)) return; // 내려받을 파일은 브라우저가 그대로 받게
       e.respondWith((async () => {
         const hit = await caches.match('./', { cacheName: CACHE });
         if (hit) return clean(hit);

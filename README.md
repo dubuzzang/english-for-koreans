@@ -3,7 +3,13 @@
 한국어 화자에게 맞춘 영어 학습 웹앱입니다. 휴대폰 브라우저에 최적화되어 있고, 설치 없이 바로 쓸 수 있어요.
 [Merhaba(한국인을 위한 튀르키예어)](https://turkish-for-koreans.pages.dev/)와 같은 구조로 만든 영어판이에요.
 
-**바로 사용하기 → https://english-for-koreans.pages.dev/** (배포 후)
+**바로 사용하기 → https://english-for-koreans.pages.dev/**
+
+| 설치 | 방법 |
+|---|---|
+| 안드로이드 | [Hello 앱 내려받기 (APK)](https://english-for-koreans.pages.dev/download/hello.apk) → 열어서 설치 (구글 플레이 밖 앱이라 "출처를 알 수 없는 앱" 허용 필요) |
+| 아이폰·아이패드 | Safari로 [설치 파일](https://english-for-koreans.pages.dev/download/hello.mobileconfig) 받기 → 설정 → "프로파일이 다운로드됨" → 설치. 또는 Safari 공유 버튼 → "홈 화면에 추가" |
+| PC | Chrome·Edge 주소창의 설치 아이콘(⊕) |
 
 ## 왜 한국인에게 맞춤인가
 

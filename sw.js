@@ -1,5 +1,5 @@
 /* Hello 서비스 워커 — scripts/gen-sw.mjs가 만든 파일이에요 (직접 고치지 마세요) */
-const VERSION = '1.0.1';
+const VERSION = '1.0.2';
 const CACHE = `hello-${VERSION}`;
 const FONT_CACHE = 'hello-fonts-v1';
 const AUDIO_CACHE = 'hello-audio-v1'; // 녹음 음성: 버전이 바뀌어도 유지 (파일 이름이 내용마다 다름)
@@ -79,6 +79,10 @@ self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
+function isAppPage(pathname) {
+  return !/\.[a-z0-9]+$/i.test(pathname) || /\/index\.html$/.test(pathname);
+}
+
 // 리디렉션을 거친 응답은 페이지 열기(navigate)에 그대로 쓸 수 없어서 깨끗한 응답으로 바꾼다
 async function clean(res) {
   if (!res || !res.redirected) return res;
@@ -138,6 +142,7 @@ self.addEventListener('fetch', (e) => {
       return;
     }
     if (req.mode === 'navigate') {
+      if (!isAppPage(url.pathname)) return; // 내려받을 파일은 브라우저가 그대로 받게
       e.respondWith((async () => {
         const hit = await caches.match('./', { cacheName: CACHE });
         if (hit) return clean(hit);

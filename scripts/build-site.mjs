@@ -19,9 +19,13 @@ export const HEADERS = `# 녹음 파일은 내용이 바뀌면 이름(id)도 바
 /.well-known/assetlinks.json
   Content-Type: application/json
   Access-Control-Allow-Origin: *
-/download/*
+/download/hello.apk
   Content-Type: application/vnd.android.package-archive
   Content-Disposition: attachment; filename="hello.apk"
+  Cache-Control: public, max-age=300
+# 아이폰 설치 파일(구성 프로파일): 이 형식이어야 사파리가 "프로파일 다운로드"로 받는다
+/download/hello.mobileconfig
+  Content-Type: application/x-apple-aspen-config
   Cache-Control: public, max-age=300
 /*
   X-Content-Type-Options: nosniff

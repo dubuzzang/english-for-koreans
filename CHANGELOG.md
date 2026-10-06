@@ -1,5 +1,10 @@
 # 변경 기록
 
+## v1.0.1 — 2026-10-06
+
+- 안드로이드 앱(APK) 내려받기: 설치 화면에서 바로 받기 (`download/hello.apk`, 주소 표시줄 없이 열리도록 `/.well-known/assetlinks.json`)
+- 공개 주소: https://english-for-koreans.pages.dev (GitHub Pages: https://dubuzzang.github.io/english-for-koreans/)
+
 ## v1.0.0 — 2026-10-05
 
 첫 공개 버전. 튀르키예어 앱(Merhaba v1.7)과 같은 구조의 영어판.

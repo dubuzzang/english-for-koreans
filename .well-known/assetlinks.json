@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.dubuzzang.hello",
+      "sha256_cert_fingerprints": ["CD:E2:52:C9:CD:7F:64:DF:AA:EE:0E:4A:F5:B3:91:93:9A:60:CF:AD:99:EE:67:A4:2D:E3:D2:C4:18:09:2B:F0"]
+    }
+  }
+]

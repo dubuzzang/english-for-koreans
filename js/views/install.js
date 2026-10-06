@@ -5,7 +5,7 @@ import { packRecords, unpackRecords, moveLink, APP_ORIGIN } from '../core/transf
 import { offlineCard } from './offlinecard.js';
 
 // 안드로이드 앱(APK)을 download/hello.apk에 올렸으면 true (android/README.md)
-export const APK_READY = false;
+export const APK_READY = true;
 export const APK_URL = `${APP_ORIGIN}/download/hello.apk`;
 const onAppOrigin = () => location.origin === APP_ORIGIN;
 const steps = (...items) => h('ol', { class: 'steps' }, items.map((t) => h('li', null, t)));

@@ -10,20 +10,30 @@ const FONT_HOSTS = /fonts\.googleapis\.com|cdn\.jsdelivr\.net/;
 export const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true
   || document.referrer.startsWith('android-app://');
 
-export function platform() {
-  const ua = navigator.userAgent;
-  if (/iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return 'ios';
+export function platform(ua = navigator.userAgent, touch = navigator.maxTouchPoints) {
+  if (/iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && touch > 1)) return 'ios';
   if (/android/i.test(ua)) return 'android';
   return 'desktop';
 }
 
 /** 앱 안 브라우저(카카오톡·네이버·인스타그램 등) — 여기서는 앱 설치가 안 된다 */
-export function inAppBrowser() {
-  const ua = navigator.userAgent;
+export function inAppBrowser(ua = navigator.userAgent) {
   if (/KAKAOTALK/i.test(ua)) return 'kakao';
   if (/NAVER\(inapp|Whale\/.*inapp/i.test(ua)) return 'naver';
   if (/Instagram|FBAN|FBAV|Line\/|DaumApps|everytimeApp/i.test(ua)) return 'other';
   return null;
+}
+
+/** 아이폰의 사파리 말고 다른 브라우저(크롬·파이어폭스·엣지·웨일·네이버 앱·앱 안 브라우저).
+ *  구성 프로파일(설치 파일)은 사파리에서만 설치로 넘어가고, 다른 브라우저는 "파일" 앱에 저장만 해서 설치할 수 없다.
+ *  사파리가 아닌 화면(앱 안 웹뷰)은 UA에 "Safari/"가 없다 */
+export function iosOtherBrowser(ua = navigator.userAgent) {
+  return /CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|Whale|NAVER|DaumApps|KAKAOTALK|Line\/|Instagram|FBAN|FBAV|everytimeApp/i.test(ua) || !/Safari\//.test(ua);
+}
+
+/** 아이폰에서 사파리로 여는 주소: 카카오톡은 "바깥 브라우저로 열기" 주소, 그 밖에는 x-safari-https:// (iOS 17 이상) */
+export function safariLink(url, kind = inAppBrowser()) {
+  return kind === 'kakao' ? `kakaotalk://web/openExternal?url=${encodeURIComponent(url)}` : url.replace(/^https:\/\//, 'x-safari-https://');
 }
 
 /** 모바일 데이터이거나 데이터 절약 모드 (알 수 있는 브라우저에서만) */

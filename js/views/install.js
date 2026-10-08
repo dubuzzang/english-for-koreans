@@ -1,6 +1,6 @@
 // 앱 설치 · 오프라인: 안드로이드·아이폰 홈 화면 앱 설치 안내, 오프라인 팩, 학습 기록 옮기기
 import { h, icon, toast } from '../core/ui.js';
-import { isStandalone, platform, inAppBrowser } from '../core/offline.js';
+import { isStandalone, platform, inAppBrowser, iosOtherBrowser, safariLink } from '../core/offline.js';
 import { packRecords, unpackRecords, moveLink, APP_ORIGIN } from '../core/transfer.js';
 import { offlineCard } from './offlinecard.js';
 
@@ -9,22 +9,31 @@ export const APK_READY = true;
 export const APK_URL = `${APP_ORIGIN}/download/hello.apk`;
 // 아이폰 설치 파일: 홈 화면에 앱 아이콘을 추가하는 구성 프로파일 (scripts/gen-ios-profile.mjs)
 export const IOS_PROFILE_URL = `${APP_ORIGIN}/download/hello.mobileconfig`;
+const INSTALL_URL = `${APP_ORIGIN}/#/install`;
 const onAppOrigin = () => location.origin === APP_ORIGIN;
 const steps = (...items) => h('ol', { class: 'steps' }, items.map((t) => h('li', null, t)));
+const otherMenuHint = (fallback) => h('div', { class: 'mt-8 small' }, fallback ? '버튼이 안 되면 ' : '', '오른쪽 아래(또는 위) ⋯ 메뉴 → "Safari로 열기" / "다른 브라우저로 열기"를 누르세요.');
+
+async function copyInstallUrl() {
+  try {
+    await navigator.clipboard.writeText(INSTALL_URL);
+    toast('주소를 복사했어요 — Safari 주소창에 붙여넣으세요', 'ok');
+  } catch { toast(`복사하지 못했어요. Safari에서 ${INSTALL_URL.replace('https://', '')} 을 열어 주세요`, 'bad'); }
+}
 
 function inAppCard(kind) {
   const url = onAppOrigin() ? location.href.split('#')[0] : `${APP_ORIGIN}/`;
   const os = platform();
-  const open = kind === 'kakao'
-    ? `kakaotalk://web/openExternal?url=${encodeURIComponent(url)}`
-    : os === 'android' ? `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end` : null;
+  const open = os === 'ios' ? safariLink(INSTALL_URL, kind)
+    : kind === 'kakao' ? `kakaotalk://web/openExternal?url=${encodeURIComponent(url)}`
+      : os === 'android' ? `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end` : null;
   return h('div', { class: 'note warn' },
     h('div', { class: 'note-title' }, '⚠️ 앱 안 브라우저에서는 설치할 수 없어요'),
     kind === 'kakao' ? '카카오톡 안에서 열렸어요. ' : '다른 앱 안에서 열렸어요. ',
-    os === 'ios' ? 'Safari로 열어야 홈 화면에 추가할 수 있어요.' : 'Chrome으로 열어야 앱을 설치할 수 있어요.',
-    open
-      ? h('a', { class: 'btn btn-primary btn-block mt-12', href: open }, os === 'ios' ? 'Safari로 열기' : 'Chrome으로 열기')
-      : h('div', { class: 'mt-8 small' }, '오른쪽 아래(또는 위) ⋯ 메뉴 → "Safari로 열기" / "다른 브라우저로 열기"를 누르세요.'),
+    os === 'ios' ? 'Safari로 열어야 설치 파일을 받거나 홈 화면에 추가할 수 있어요.' : 'Chrome으로 열어야 앱을 설치할 수 있어요.',
+    open && h('a', { class: 'btn btn-primary btn-block mt-12', href: open }, os === 'ios' ? 'Safari로 열기' : 'Chrome으로 열기'),
+    // x-safari-https://는 iOS 17부터라 메뉴 안내도 함께 둔다
+    (!open || (os === 'ios' && kind !== 'kakao')) && otherMenuHint(!!open),
   );
 }
 
@@ -59,12 +68,24 @@ function androidCard(primary) {
 
 function iosCard(primary) {
   const safari = () => h('b', null, 'Safari'); // 요소는 한 곳에만 붙으므로 쓸 때마다 새로
+  // 크롬·네이버 앱·카카오톡 등에서 받으면 "파일" 앱에 저장만 되고 설치되지 않는다 → 먼저 사파리로 연다
+  const other = platform() === 'ios' && iosOtherBrowser();
   return h('div', { class: `card ${primary ? '' : 'flat'}` },
     h('div', { class: 'bold', style: { fontSize: '17px' } }, '🍎 아이폰 · 아이패드'),
-    // download 속성 없이 연다: 사파리가 구성 프로파일로 받아 설정 앱에 넘긴다
-    h('a', { class: 'btn btn-primary btn-block btn-lg mt-12', href: IOS_PROFILE_URL }, icon('download', 20), 'Hello 설치 파일 받기 (아이폰)'),
+    other
+      ? [
+        h('div', { class: 'note warn mt-12' },
+          h('div', { class: 'note-title' }, '⚠️ 설치 파일은 Safari에서만 받을 수 있어요'),
+          '지금 브라우저(크롬·네이버·카카오톡 등)에서 받으면 "파일" 앱에 저장만 되고 설치되지 않아요. Safari로 열어서 아래 순서대로 해 주세요.'),
+        h('a', { class: 'btn btn-primary btn-block btn-lg mt-12', href: safariLink(INSTALL_URL) }, 'Safari로 열기'),
+        h('button', { class: 'btn btn-outline btn-block mt-8', type: 'button', onclick: copyInstallUrl }, '주소 복사 (Safari 주소창에 붙여넣기)'),
+      ]
+      // download 속성 없이 연다: 사파리가 구성 프로파일로 받아 설정 앱에 넘긴다
+      : h('a', { class: 'btn btn-primary btn-block btn-lg mt-12', href: IOS_PROFILE_URL }, icon('download', 20), 'Hello 설치 파일 받기 (아이폰)'),
     steps(
-      h('span', null, safari(), '에서 위 버튼을 누르고 ', h('b', null, '"허용"'), '을 눌러요.'),
+      other
+        ? h('span', null, safari(), '로 연 화면에서 ', h('b', null, '"Hello 설치 파일 받기"'), '를 누르고 ', h('b', null, '"허용"'), '을 눌러요.')
+        : h('span', null, safari(), '에서 위 버튼을 누르고 ', h('b', null, '"허용"'), '을 눌러요.'),
       h('span', null, h('b', null, '설정'), ' 앱을 열면 맨 위에 ', h('b', null, '"프로파일이 다운로드됨"'), '이 보여요. 눌러서 ', h('b', null, '"설치"'), '를 누르고 기기 암호를 입력해요.'),
       '"서명되지 않음"은 앱 스토어를 거치지 않은 파일이라 나오는 표시예요. "설치"를 한 번 더 누르면 홈 화면에 Hello 아이콘이 생겨요.',
       'Hello 아이콘으로 열면 와이파이에서 녹음·글꼴을 자동으로 저장해요. 그다음부터는 데이터 없이 학습할 수 있어요.',
